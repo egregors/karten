@@ -20,7 +20,8 @@ const (
 	minScore = 0
 	maxScore = 5
 
-	verbFormenURL = "https://www.verbformen.com/?w="
+	verbFormenProvider = "verbformen.com"
+	verbFormenURL      = "https://www.verbformen.com/?w="
 )
 
 const (
@@ -47,6 +48,7 @@ type Syllable struct {
 
 // VerbFormenCard is representation of word card from VerbFormen
 type VerbFormenCard struct {
+	Provider    string      `json:"provider"`
 	Origin      []string    `json:"origin"`
 	Translation []string    `json:"translation"`
 	Forms       []*Syllable `json:"forms"`
@@ -252,6 +254,9 @@ func (v VerbFormenCard) GetJSON() string {
 	if len(v.Forms) == 0 || len(v.Translation) == 0 {
 		return ""
 	}
+	// todo: just for now is only provider is verbformen,
+	// 	so i just hardcode it here, what can u do with me?
+	v.Provider = verbFormenProvider
 	data, err := json.Marshal(v)
 	if err != nil {
 		// fixme: err
@@ -266,7 +271,7 @@ func (v VerbFormenCard) GetJSON() string {
 //		translation 		:: string
 //		last_seen_at 		:: string[time.RFC3339]
 //		score 				:: int
-//		meta 	:: string[JSON]
+//		meta 				:: string[JSON]
 func (w Word) GetCSV() []string {
 	// hint: schema
 	var jsonCard string
