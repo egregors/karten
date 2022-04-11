@@ -10,8 +10,11 @@ all: run
 build: lint test
 	@go build -o karten
 
-run:  ## Run dev version
+run:  ## Run the learn mode
 	@go run main.go
+
+add:  ## Run the add mode
+	@go run main.go add
 
 lint:  ## Lint the files
 	@golangci-lint run --config .golangci.yml ./...
