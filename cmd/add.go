@@ -42,6 +42,14 @@ func (m modelAdd) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			return m, tea.Quit
 
+		case tea.KeyEsc:
+			if m.mode == manualMode {
+				m.textInput.Reset()
+				m.textInput.Placeholder = "Neues Wort..."
+				m.mode = addMode
+				return m, nil
+			}
+
 		case tea.KeyEnter:
 			switch m.mode {
 			case addMode:
