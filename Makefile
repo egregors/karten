@@ -3,7 +3,7 @@ PKG := "github.com/egregors/$(PROJECT_NAME)"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 
-.PHONY: all test lint bench run
+.PHONY: all test lint race bench run update-go-deps help
 
 all: run
 
@@ -27,6 +27,16 @@ race:  ## Run data race detector
 
 bench:  ## Run benchmarks
 	@go test -bench=.
+
+update-go-deps:  ## Updating Go dependencies
+	@echo ">> updating Go dependencies"
+	@for m in $$(go list -mod=readonly -m -f '{{ if and (not .Indirect) (not .Main)}}{{.Path}}{{end}}' all); do \
+		go get $$m; \
+	done
+	go mod tidy
+ifneq (,$(wildcard vendor))
+	go mod vendor
+endif
 
 ## Help
 

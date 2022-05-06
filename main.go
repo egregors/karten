@@ -4,34 +4,44 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/egregors/karten/cmd"
+	"github.com/egregors/karten/cmd/add"
+	"github.com/egregors/karten/cmd/learn"
+	"github.com/egregors/karten/pkg/provider"
+	"github.com/egregors/karten/pkg/store"
 )
 
-const (
-	cliAdd = "add"
-)
+const cliAdd = "add"
 
 func main() {
-	// todo: get words file path from the CLI args or ENV
-	p := "words.csv"
-
-	// todo: create empty CSV if not exist
-
 	// add mode
 	if len(os.Args) > 1 && os.Args[1] == cliAdd {
-		if err := cmd.RunAddModeCLI(p); err != nil {
-			fmt.Println(err.Error())
+		srv := add.NewSrv(
+			store.CSV{Path: "words.csv"},
+			provider.VerbFormen{URL: "https://www.verbformen.com/?w="},
+			// todo: take debug config from CLI
+			true,
+		)
+
+		if err := srv.Run(); err != nil {
+			fmt.Println("ERR: ", err.Error())
 			os.Exit(1)
 		}
-		os.Exit(0)
+
 	}
 
 	// learn mode
-	if err := cmd.RunCLI(p); err != nil {
-		fmt.Println(err.Error())
+	srv, err := learn.NewSrv(
+		store.CSV{Path: "words.csv"},
+		true,
+	)
+
+	if err != nil {
+		fmt.Println("ERR: ", err)
 		os.Exit(1)
 	}
-	os.Exit(0)
 
-	// todo: show some message if `db` is empty
+	if err := srv.Run(); err != nil {
+		fmt.Println("ERR: ", err)
+		os.Exit(1)
+	}
 }
