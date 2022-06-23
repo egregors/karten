@@ -33,13 +33,16 @@ Just run `karten` to exercise, or `karten -a` to add new words.
 |       | --dbg | Debug mode to print some additional information. |
 
 ### Add new words
-[//]: # (Add asciinem with adding process: meta & manual)
+
+![add](https://user-images.githubusercontent.com/2153895/175352444-64efcc98-839d-4217-90cc-3b0d820754e7.svg)
+
 
 When you try to add a new word, Karten will try to get some info (translation, forms, grammar) about this word by 
 particular data provider. If it fails, you can add your own translation for the word.
 
 ### Learn words
-[//]: # (Add asciinem with learning process)
+
+![learn](https://user-images.githubusercontent.com/2153895/175352472-4a953f04-3b5e-4459-9ade-c3e7c197fef5.svg)
 
 All words have his own rating, how good you know them. It's stars from 0 to 5. When 
 you remember the word, one star will be added. Otherwise – removed. Besides, words lose 
