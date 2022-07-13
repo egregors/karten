@@ -24,6 +24,34 @@ type CSV struct {
 	Path string
 }
 
+// NewCSV open creates new CSV store. Creates a new CSV file, if it does not exist.
+func NewCSV(path string) (*CSV, error) {
+	err := getPath(path)
+	if err != nil {
+		return nil, fmt.Errorf("can't make CSV file: %w", err)
+	}
+	return &CSV{Path: path}, nil
+}
+
+func getPath(path string) error {
+	if isFileExist(path) {
+		return nil
+	}
+
+	dir, _ := filepath.Split(path)
+
+	err := os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	err = createFile(path)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // loadAll loads all word from CSV file in random order
 func (c CSV) loadAll() (ws Words, err error) {
 	f, err := os.Open(filepath.Clean(c.Path))
@@ -157,4 +185,20 @@ func toRow(w Word) []string {
 		strconv.Itoa(w.Score),
 		w.Meta,
 	}
+}
+
+func isFileExist(path string) bool {
+	if _, err := os.Stat(filepath.Clean(path)); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+func createFile(path string) error {
+	f, err := os.Create(filepath.Clean(path))
+	if err != nil {
+		return err
+	}
+	defer func() { _ = f.Close() }()
+	return CSV{Path: path}.saveAll(nil)
 }

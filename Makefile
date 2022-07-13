@@ -10,6 +10,9 @@ all: run
 build: lint test
 	@go build -o karten
 
+install: build  ## Build executable and put it into $GOPATH
+	cp -f ./karten ${GOPATH}/bin/
+
 run:  ## Run the learn mode
 	@go run main.go
 

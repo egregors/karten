@@ -3,13 +3,19 @@ package store
 import (
 	"container/heap"
 	"fmt"
+	"regexp"
+	"strings"
 	"time"
 )
 
 const (
 	minScore = 0
 	maxScore = 5
+
+	ansi = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
 )
+
+var re = regexp.MustCompile(ansi)
 
 // Word is word for learning with all required metadata.
 type Word struct {
@@ -41,6 +47,26 @@ func (w *Word) DecScore() {
 	if w.Score > minScore {
 		w.Score--
 	}
+}
+
+// HasMeta indicate if Word has Meta data
+func (w *Word) HasMeta() bool {
+	return w.Meta != ""
+}
+
+// GetMeta returns formatted Meta
+func (w *Word) GetMeta() string {
+	return strings.Join(strings.Split(w.Meta, "\n")[1:], "")
+}
+
+// GetMetaWithoutColors return pure string without ASCII colors
+func (w *Word) GetMetaWithoutColors() string {
+	return StripColors(w.Meta)
+}
+
+// StripColors cleans any color related unprintable symbols
+func StripColors(s string) string {
+	return re.ReplaceAllString(s, "")
 }
 
 // Words is a heap of Word's
