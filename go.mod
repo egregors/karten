@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/charmbracelet/bubbles v0.10.3
 	github.com/charmbracelet/bubbletea v0.20.0
+	github.com/jessevdk/go-flags v1.5.0
 	github.com/muesli/termenv v0.11.1-0.20220212125758-44cd13922739
 	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
 
