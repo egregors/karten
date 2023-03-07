@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/bubbletea v0.20.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/muesli/termenv v0.11.1-0.20220212125758-44cd13922739
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
+	golang.org/x/net v0.7.0
 
 )
 
@@ -21,6 +21,6 @@ require (
 	github.com/muesli/ansi v0.0.0-20211018074035-2e021307bc4b // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
-	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
 )
